@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
+require('dotenv').config(); // Load environment variables from .env file
 
 const connectToMongoDB = async () => {
   try {
-    await mongoose.connect('mongodb+srv://project:Super123@cluster0.gq4l35a.mongodb.net/UsedCar?retryWrites=true&w=majority', {
+    await mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });

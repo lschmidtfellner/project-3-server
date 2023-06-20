@@ -21,7 +21,11 @@ const carListingSchema = new mongoose.Schema({
     },
     Description: {
         type: String,
-    },
+    }, 
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    }
 });
 
 const CarListing = mongoose.model('CarListing', carListingSchema);

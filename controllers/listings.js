@@ -1,4 +1,4 @@
-const SalePost = require('../models/CarListing');
+const SalePost = require('../models/CarListings');
 
 // Create a new sale post
 async function createSalePost(req, res) {
