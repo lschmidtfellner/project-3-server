@@ -1,5 +1,6 @@
-const CarListing = require('../models/CarListing');
-const SalePost = require('../models/CarListings');
+import CarListing from '../models/CarListing.js';
+
+// import { SalePost } from '../models/CarListings';
 
 // Create a new sale post
 async function createSalePost(req, res) {
@@ -80,7 +81,7 @@ async function deleteSalePost(req, res) {
   }
 }
 
-module.exports = {
+export default {
   createSalePost,
   getSalePostById,
   getAllSalePosts,

@@ -1,5 +1,7 @@
-const express = require('express');
-const salePostController = require('../controllers/listings');
+import express from 'express'
+import salePostController from '../controllers/listings.js'
+
+
 
 const router = express.Router();
 
@@ -10,4 +12,4 @@ router.get('/saleposts', salePostController.getAllSalePosts);
 router.put('/saleposts/:id', salePostController.updateSalePost);
 router.delete('/saleposts/:id', salePostController.deleteSalePost);
 
-module.exports = router;
+export default router 

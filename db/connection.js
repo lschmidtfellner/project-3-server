@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
 import chalk from "chalk";
 
-const MONGODB_URI =
-  process.env.PROD_MONGODB || "mongodb://127.0.0.1/USERS";
+const MONGODB_URI = process.env.PROD_MONGODB || "mongodb://127.0.0.1/USERS";
 
 // Uncomment to debug Mongoose queries
 // mongoose.set('debug', true)

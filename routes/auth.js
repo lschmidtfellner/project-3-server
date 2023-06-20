@@ -1,8 +1,7 @@
 import { Router } from "express";
 
-
 import { isTokenValid, signup, signin, updateUsername, deleteUsername } from '../controllers/auth.js'
-import verifyAuth from "../middlewares/veryAuth.js";
+import verifyAuth from '../middleware/veryAuth.js'
 const router = Router()
 
 router.get('/isTokenValid', verifyAuth, isTokenValid);

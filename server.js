@@ -4,11 +4,10 @@ import chalk from 'chalk'
 import cors from 'cors'
 import logger from 'morgan'
 import cookieParser from 'cookie-parser';
-import routes from './routes/auth.js'
+import authRoutes from './routes/auth.js';
+import carSaleRoutes from './routes/carSale.js';
 import * as dotenv from 'dotenv'
 dotenv.config();
-
-const salePostRoutes = require('./routes/carSale');
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -18,10 +17,12 @@ app.use(cookieParser());
 app.use(cors());
 app.use(logger('development'));
 
-app.use('/api', routes);
+// app.use('/api', routes);
+app.use('/auth', authRoutes);
+app.use('/user', carSaleRoutes);
 
 db.on('Connected', () => {
-  console.clear(); // Add parentheses to clear the console
+  console.clear();
   console.log(chalk.blue('Connected to MongoDB'));
 });
 
