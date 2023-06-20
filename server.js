@@ -5,6 +5,10 @@ import cors from 'cors'
 import logger from 'morgan'
 import cookieParser from 'cookie-parser';
 import routes from './routes/auth.js'
+import * as dotenv from 'dotenv'
+dotenv.config();
+
+const salePostRoutes = require('./routes/carSale');
 
 const app = express();
 const PORT = process.env.PORT || 8000;
