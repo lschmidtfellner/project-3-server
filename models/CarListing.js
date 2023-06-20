@@ -1,25 +1,25 @@
 const mongoose = require('mongoose');
 
 const carListingSchema = new mongoose.Schema({
-    make: {
+    Make: {
         type: String,
     },
-    model: {
+    Model: {
         type: String,
     },
-    year: {
+    Year: {
         type: Number,
     },
-    category: {
+    Category: {
         type: String,
     },
-    mileage: {
+    Mileage: {
         type: Number,
     },
-    condition: {
+    Condition: {
         type: String,
     },
-    description: {
+    Description: {
         type: String,
     },
 });
