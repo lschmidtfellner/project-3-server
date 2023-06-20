@@ -1,25 +1,30 @@
-const express = require('express');
-const mongoose = require('mongoose');
-require('dotenv').config();
+import db from './db/connection.js';
+import express from 'express'
+import chalk from 'chalk'
+import cors from 'cors'
+import logger from 'morgan'
+import cookieParser from 'cookie-parser';
+import routes from './routes/auth.js'
+import * as dotenv from 'dotenv'
+dotenv.config();
+
 const salePostRoutes = require('./routes/carSale');
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 8000;
 
-mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
-    .then(() => {
-        console.log('MongoDB is connected');
-    })  
-    .catch((error) => {
-        console.log('Error connectiong to MongoDB', error);
-    });
+app.use(express.json());
+app.use(cookieParser());
+app.use(cors());
+app.use(logger('development'));
 
-//app.use('/api', userRoutes);
-app.use('/api', salePostRoutes);
+app.use('/api', routes);
+
+db.on('Connected', () => {
+  console.clear(); // Add parentheses to clear the console
+  console.log(chalk.blue('Connected to MongoDB'));
+});
 
 app.listen(PORT, () => {
-    console.log(`Server is running on PORT: ${PORT}`);
+  console.log(`Express server running on port ${PORT}`);
 });
