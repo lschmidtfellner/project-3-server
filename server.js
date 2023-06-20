@@ -7,11 +7,12 @@ import cookieParser from 'cookie-parser';
 import authRoutes from './routes/auth.js';
 import carSaleRoutes from './routes/carSale.js';
 import * as dotenv from 'dotenv'
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-dotenv.config();
+
 
 app.use(express.json());
 app.use(cookieParser());

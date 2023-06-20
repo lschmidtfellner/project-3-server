@@ -42,12 +42,11 @@
 // // Export the connection
 // export default mongoose.connection; 
 
-
 import mongoose from 'mongoose'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-const MONGODB_URI = process.env.MONGODB_URI 
+const MONGODB_URI = process.env.PROD_MONGODB // Changed from process.env.MONGODB_URI
 
 let mongooseConfig = {
     useNewUrlParser: true,
@@ -60,5 +59,4 @@ mongoose.connection.on('connected', () => {console.log('Connected to database!')
 mongoose.connection.on('disonnected', () => {console.log('Disconnected to database!')})
 mongoose.connection.on('error', (error) => {console.log('Error connecting to database! Look out for: ', error)})
 
-
-export default mongoose.connection 
+export default mongoose.connection
