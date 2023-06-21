@@ -1,4 +1,4 @@
-import CarInfo from '../models/carInfo.js';
+import CarInfo from '../models/CarInfo.js';
 
 const carController = {
   getAllCarInfo: async (req, res) => {
