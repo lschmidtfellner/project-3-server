@@ -44,6 +44,7 @@ import mongooseConnection from './db/connection.js';
 
 import db from "./db/connection.js";
 import authRoutes from './routes/auth.js';
+import salePostRoutes from './routes/carSale.js';
 
 import express from "express";
 import cors from "cors";
@@ -58,6 +59,8 @@ app.use(cors());
 app.use(logger("dev"));
 
 app.use('/auth', authRoutes);
+app.use('/api', salePostRoutes);
+// app.use('/auth', authRoutes);
 
 db.on("connected", () => {
   console.clear();
