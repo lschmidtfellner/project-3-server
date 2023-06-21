@@ -12,19 +12,7 @@ const carController = {
 
   searchCarInfo: async (req, res) => {
     try {
-      const { make, model, year } = req.query;
-  
-      // Build the search query based on the provided query parameters
-      const searchQuery = {};
-      if (make) {
-        searchQuery.make = make;
-      }
-      if (model) {
-        searchQuery.model = model;
-      }
-      if (year) {
-        searchQuery.year = year;
-      }
+      const searchQuery = { ...req.query }; // Copy the req.query object
   
       // Perform the search using the search query
       const carInfo = await CarInfo.find(searchQuery);
@@ -34,6 +22,7 @@ const carController = {
       res.status(500).json({ message: error.message });
     }
   }
+  
 };
 
 
