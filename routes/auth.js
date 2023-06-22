@@ -4,7 +4,7 @@ import { isTokenValid, signup, signin, updateUsername, deleteUsername } from '..
 import verifyAuth from '../middleware/verifyAuth.js'
 const router = Router()
 
-router.get('/isTokenValid', verifyAuth, isTokenValid);
+router.get('/isTokenValid', isTokenValid, verifyAuth);
 router.post('/signup', signup);
 router.post('/signin', signin);
 router.put('/updateUsername', updateUsername);

@@ -91,21 +91,25 @@ async function signin(req, res) {
     })
   }
 }
-export async function isTokenValid(req, res) {
-    try {
-        // Assuming 'req.user' contains the ID of the user after token verification 
-        // (set in the 'verifyAuth' middleware)
-        const user = await User.findById(req.user);
-        if (!user) throw new Error('User not found');
 
-        // If the user is found and the token is valid, send a positive response
-        return res.status(200).json({ isValid: true });
-    } catch (error) {
-        return res.status(500).json({ isValid: false, error: error.message });
-    }
-}
+// Backend implementation
 
+const isTokenValid = (req, res, next) => {
+    const token = req.header('Authorization');
   
+    if (!token) {
+      return res.status(401).json({ error: 'No authentication token provided' });
+    }
+  
+    try {
+      const decoded = jwt.verify(token, SECRET_KEY);
+      req.user = decoded.user; // Attach the decoded user information to the request object
+      next(); // Call the next middleware or endpoint
+    } catch (error) {
+      return res.status(401).json({ error: 'Invalid authentication token' });
+    }
+  };
+
 
 async function updateUsername(req, res) {
   try {
@@ -148,4 +152,4 @@ async function deleteUsername(req, res) {
   }
 }
 
-export { signup, signin, updateUsername, deleteUsername }
+export { isTokenValid, signup, signin, updateUsername, deleteUsername }
