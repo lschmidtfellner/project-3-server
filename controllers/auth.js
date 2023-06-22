@@ -91,25 +91,21 @@ async function signin(req, res) {
     })
   }
 }
+export async function isTokenValid(req, res) {
+    try {
+        // Assuming 'req.user' contains the ID of the user after token verification 
+        // (set in the 'verifyAuth' middleware)
+        const user = await User.findById(req.user);
+        if (!user) throw new Error('User not found');
 
-async function isTokenValid(req, res) {
-  try {
-    if (req.id) {
-      res.status(200).json({
-        valid: true,
-        status: 200,
-        message: 'Token is valid'
-      })
+        // If the user is found and the token is valid, send a positive response
+        return res.status(200).json({ isValid: true });
+    } catch (error) {
+        return res.status(500).json({ isValid: false, error: error.message });
     }
-  } catch (error) {
-    res.status(400).json({
-      valid: false,
-      status: 400,
-      error: `Token is invalid`,
-      database_message: error.message
-    })
-  }
 }
+
+  
 
 async function updateUsername(req, res) {
   try {
@@ -152,4 +148,4 @@ async function deleteUsername(req, res) {
   }
 }
 
-export { isTokenValid, signup, signin, updateUsername, deleteUsername }
+export { signup, signin, updateUsername, deleteUsername }
