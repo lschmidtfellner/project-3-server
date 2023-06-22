@@ -95,20 +95,37 @@ async function signin(req, res) {
 
 async function isTokenValid(req, res) {
     try {
-      if (req.id) {
+      const token = req.headers.authorization.split(' ')[1]; // Extract the token from the Authorization header
+      if (!token) {
+        return res.status(401).json({
+          valid: false,
+          status: 401,
+          error: 'Missing token',
+        });
+      }
+  
+      jwt.verify(token, SECRET_KEY, (err, decodedToken) => {
+        if (err) {
+          return res.status(401).json({
+            valid: false,
+            status: 401,
+            error: 'Invalid token',
+          });
+        }
+        
         res.status(200).json({
           valid: true,
           status: 200,
-          message: "Token is valid"
-        })
-      }
+          message: 'Token is valid',
+        });
+      });
     } catch (error) {
       res.status(400).json({
         valid: false,
         status: 400,
-        error: `Token is invalid`,
+        error: 'Token is invalid',
         database_message: error.message,
-      })
+      });
     }
   }
   
