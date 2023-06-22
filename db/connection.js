@@ -46,7 +46,8 @@ import mongoose from 'mongoose'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-const MONGODB_URI = process.env.MONGODB_URI // Changed from process.env.MONGODB_URI
+const MONGODB_URI = process.env.PROD_MONGODB
+ // Changed from process.env.MONGODB_URI
 
 console.log(MONGODB_URI);
 

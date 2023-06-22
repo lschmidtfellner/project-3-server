@@ -92,24 +92,24 @@ async function signin(req, res) {
   }
 }
 
-async function isTokenValid(req, res) {
-  try {
-    if (req.id) {
-      res.status(200).json({
-        valid: true,
-        status: 200,
-        message: 'Token is valid'
-      })
+// Backend implementation
+
+const isTokenValid = (req, res, next) => {
+    const token = req.header('Authorization');
+  
+    if (!token) {
+      return res.status(401).json({ error: 'No authentication token provided' });
     }
-  } catch (error) {
-    res.status(400).json({
-      valid: false,
-      status: 400,
-      error: `Token is invalid`,
-      database_message: error.message
-    })
-  }
-}
+  
+    try {
+      const decoded = jwt.verify(token, SECRET_KEY);
+      req.user = decoded.user; // Attach the decoded user information to the request object
+      next(); // Call the next middleware or endpoint
+    } catch (error) {
+      return res.status(401).json({ error: 'Invalid authentication token' });
+    }
+  };
+
 
 async function updateUsername(req, res) {
   try {
