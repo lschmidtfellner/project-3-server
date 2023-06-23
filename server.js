@@ -41,7 +41,7 @@ import mongooseConnection from './db/connection.js';
 //   console.log(`Express server running on port ${PORT}`);
 // });
 
-
+app.use(cookieParser());
 import db from "./db/connection.js";
 import authRoutes from './routes/auth.js';
 import salePostRoutes from './routes/carSale.js';
