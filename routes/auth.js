@@ -1,8 +1,7 @@
 import { Router } from "express";
-
 import { isTokenValid, signup, signin, updateUsername, deleteUsername } from '../controllers/auth.js'
-// import verifyAuth from '../middleware/verifyAuth.js'
-const router = Router()
+
+const router = Router();
 
 router.post('/isTokenValid', isTokenValid);
 router.post('/signup', signup);
