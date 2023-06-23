@@ -3,7 +3,7 @@ import uploadController from '../controllers/upload.js';
 import multer from 'multer';
 
 const router = express.Router();
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ dest: 'uploads/compressed' });
 
 router.get('/', (req, res) => {
   res.send('Hello from the upload route!');

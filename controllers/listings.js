@@ -3,7 +3,7 @@ import CarListing from '../models/CarListing.js';
 async function createSalePost(req, res) {
     try {
       const postData = req.body;
-      const images = req.files.map(file => file.path);
+      const images = req.files.map(file => 'uploads/compressed/' + file.filename);
       const carListing = new CarListing({ ...postData, images });
       await carListing.save();
       res.status(201).json(carListing);
