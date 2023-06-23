@@ -1,16 +1,22 @@
 import CarListing from '../models/CarListing.js';
 
+
 async function createSalePost(req, res) {
-    try {
-      const postData = req.body;
-      const images = req?.files?.map(file => 'uploads/compressed/' + file.filename);
-      const carListing = new CarListing({ ...postData, images });
-      await carListing.save();
-      res.status(201).json(carListing);
-    } catch (error) {
-      res.status(500).json({ error: 'Failed to create sale post' });
-    }
+  try {
+    const postData = req.body;
+    const images = req?.files?.map(file => 'uploads/compressed/' + file.filename);
+    console.log('Received request to create a new sale post:', postData);
+    console.log('Uploaded images:', images);
+    const carListing = new CarListing({ ...postData, images });
+    console.log('New car listing object:', carListing);
+    await carListing.save();
+    console.log('Car listing saved successfully:', carListing);
+    res.status(201).json(carListing);
+  } catch (error) {
+    console.error('Error creating sale post:', error);
+    res.status(500).json({ error: 'Failed to create sale post' });
   }
+}
 
 async function getSalePostById(req, res) {
   try {
