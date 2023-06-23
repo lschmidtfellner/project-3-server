@@ -1,8 +1,9 @@
 import multer from 'multer';
+import sharp from 'sharp';
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/');
+    cb(null, 'uploads/compressed');
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
@@ -14,21 +15,32 @@ const storage = multer.diskStorage({
 export const upload = multer({ storage: storage });
 
 async function uploadImages(req, res) {
-  try {
-    console.log('Received request to upload images');
-
-    const imageFilePaths = req.files.map((file) => file.path);
-    console.log('Image file paths:', imageFilePaths);
-
-    res.status(200).json({ message: 'Images uploaded successfully', imagePaths: imageFilePaths });
-  } catch (error) {
-    console.log('Error while uploading images:', error);
-
-    res.status(500).json({ error: 'Failed to upload images' });
-  }
-}
+    try {
+      console.log('Received request to upload images');
+  
+      const compressedFilePaths = await Promise.all(
+        req.files.map(async (file) => {
+          const compressedFilename = `${file.filename.split('.')[0]}_compressed.${file.filename.split('.')[1]}`;
+          const compressedFilePath = `uploads/compressed/${compressedFilename}`;
+  
+          await sharp(file.path)
+            .resize({ width: 800 }) // Optional: Resize the image to a desired width
+            .jpeg({ quality: 80 }) // Compress the image and set JPEG quality
+            .toFile(compressedFilePath);
+  
+          return compressedFilePath;
+        })
+      );
+  
+      console.log('Compressed file paths:', compressedFilePaths);
+  
+      res.status(200).json({ message: 'Images uploaded and compressed successfully', compressedFilePaths });
+    } catch (error) {
+      console.log('Error while uploading and compressing images:', error);
+      res.status(500).json({ error: 'Failed to upload and compress images' });
+    }
+  }  
 
 export default {
   uploadImages
 };
-
