@@ -94,17 +94,20 @@ async function signin(req, res) {
 
 // Backend implementation
 
-export const isTokenValid = async (token) => {
+export const isTokenValid = (req, res) => {
+    const token = req.header('Authorization');
+  
+    if (!token) {
+      return res.status(401).json({ success: false, error: 'No authentication token provided' });
+    }
+  
     try {
-        const response = await axios.get('/auth/isTokenValid', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-        return response.data.success;
+      const decoded = jwt.verify(token, SECRET_KEY);
+      // If the token is valid, return a success response
+      return res.status(200).json({ success: true });
     } catch (error) {
-        console.log("Error during token validation:", error);
-        return false;
+      // If the token is invalid, return an error response
+      return res.status(401).json({ success: false, error: 'Invalid authentication token' });
     }
 };
 
