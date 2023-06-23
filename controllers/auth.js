@@ -94,21 +94,23 @@ async function signin(req, res) {
 
 // Backend implementation
 
-const isTokenValid = (req, res, next) => {
+const isTokenValid = (req, res) => {
     const token = req.header('Authorization');
   
     if (!token) {
-      return res.status(401).json({ error: 'No authentication token provided' });
+      return res.status(401).json({ success: false, error: 'No authentication token provided' });
     }
   
     try {
       const decoded = jwt.verify(token, SECRET_KEY);
-      req.user = decoded.user; // Attach the decoded user information to the request object
-      next(); // Call the next middleware or endpoint
+      // If the token is valid, return a success response
+      return res.status(200).json({ success: true });
     } catch (error) {
-      return res.status(401).json({ error: 'Invalid authentication token' });
+      // If the token is invalid, return an error response
+      return res.status(401).json({ success: false, error: 'Invalid authentication token' });
     }
-  };
+};
+
 
 
 async function updateUsername(req, res) {
