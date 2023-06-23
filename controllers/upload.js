@@ -20,9 +20,15 @@ async function uploadImages(req, res) {
   try {
     console.log('Received request to upload images');
 
+    if (!req.files || req.files.length === 0) {
+      console.log('No files to upload. Continuing with the rest of the code.');
+      res.status(200).json({ message: 'No files to upload' });
+      return;
+    }
+
     const compressedDirectory = 'uploads/compressed';
     const compressedFilePaths = await Promise.all(
-      req?.files?.map(async (file) => {
+      req.files.map(async (file) => {
         const compressedFilename = `${file.filename.split('.')[0]}_compressed.${file.filename.split('.')[1]}`;
         const compressedFilePath = path.join(compressedDirectory, compressedFilename);
 
