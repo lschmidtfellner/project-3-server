@@ -22,7 +22,7 @@ async function uploadImages(req, res) {
 
     const compressedDirectory = 'uploads/compressed';
     const compressedFilePaths = await Promise.all(
-      req.files.map(async (file) => {
+      req?.files?.map(async (file) => {
         const compressedFilename = `${file.filename.split('.')[0]}_compressed.${file.filename.split('.')[1]}`;
         const compressedFilePath = path.join(compressedDirectory, compressedFilename);
 
