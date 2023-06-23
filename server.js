@@ -60,7 +60,7 @@ const PORT = process.env.PORT || 8000;
 app.use(express.json());
 app.use(
       cors({
-        origin: 'http://localhost:3000',
+        origin: ['http://localhost:3000', 'https://project-3-client.vercel.app/'],
         credentials: true,
         methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
         exposedHeaders: ['Access-Control-Allow-Origin'],
