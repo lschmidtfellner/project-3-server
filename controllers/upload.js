@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import multer from 'multer';
 import sharp from 'sharp';
 
@@ -15,31 +17,37 @@ const storage = multer.diskStorage({
 export const upload = multer({ storage: storage });
 
 async function uploadImages(req, res) {
-    try {
-      console.log('Received request to upload images');
-  
-      const compressedFilePaths = await Promise.all(
-        req.files.map(async (file) => {
-          const compressedFilename = `${file.filename.split('.')[0]}_compressed.${file.filename.split('.')[1]}`;
-          const compressedFilePath = `uploads/compressed/${compressedFilename}`;
-  
-          await sharp(file.path)
-            .resize({ width: 800 }) // Optional: Resize the image to a desired width
-            .jpeg({ quality: 80 }) // Compress the image and set JPEG quality
-            .toFile(compressedFilePath);
-  
-          return compressedFilePath;
-        })
-      );
-  
-      console.log('Compressed file paths:', compressedFilePaths);
-  
-      res.status(200).json({ message: 'Images uploaded and compressed successfully', compressedFilePaths });
-    } catch (error) {
-      console.log('Error while uploading and compressing images:', error);
-      res.status(500).json({ error: 'Failed to upload and compress images' });
-    }
-  }  
+  try {
+    console.log('Received request to upload images');
+
+    const compressedDirectory = 'uploads/compressed';
+    const compressedFilePaths = await Promise.all(
+      req.files.map(async (file) => {
+        const compressedFilename = `${file.filename.split('.')[0]}_compressed.${file.filename.split('.')[1]}`;
+        const compressedFilePath = path.join(compressedDirectory, compressedFilename);
+
+        // Create the directory if it doesn't exist
+        if (!fs.existsSync(compressedDirectory)) {
+          fs.mkdirSync(compressedDirectory, { recursive: true });
+        }
+
+        await sharp(file.path)
+          .resize({ width: 800 }) // Optional: Resize the image to a desired width
+          .jpeg({ quality: 80 }) // Compress the image and set JPEG quality
+          .toFile(compressedFilePath);
+
+        return compressedFilePath;
+      })
+    );
+
+    console.log('Compressed file paths:', compressedFilePaths);
+
+    res.status(200).json({ message: 'Images uploaded and compressed successfully', compressedFilePaths });
+  } catch (error) {
+    console.log('Error while uploading and compressing images:', error);
+    res.status(500).json({ error: 'Failed to upload and compress images' });
+  }
+}
 
 export default {
   uploadImages
