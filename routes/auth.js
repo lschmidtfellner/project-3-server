@@ -7,7 +7,7 @@ const router = Router()
 router.get('/isTokenValid', isTokenValid, verifyAuth);
 router.post('/signup', signup);
 router.post('/signin', signin);
-router.put('/updateUsername', updateUsername);
+router.put('/updateUsername', verifyAuth, updateUsername);
 router.delete('/deleteUsername', deleteUsername);
 
 export default router;

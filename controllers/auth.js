@@ -79,7 +79,7 @@ async function signin(req, res) {
 
     return res.status(200).json({
       status: 200,
-      message: `Successfully signed in ${user.username}`,
+      message: `Successfully signed in ${user._id}`,
       token: token,
       user: user
     })
@@ -112,19 +112,17 @@ const isTokenValid = (req, res, next) => {
 
 
 async function updateUsername(req, res) {
+  console.log(req.user, 'here')
   try {
-    const { newUsername } = req.body
-    const user = await User.findOne({ username: newUsername })
-
-    if (user) {
-      return res.status(400).json({ error: 'Username already exists' })
-    }
-
-    await User.findByIdAndUpdate(req.user._id, { username: newUsername })
+    const { username } = req.body
+    
+   const user = await User.findById(req.user)
+   user.username = username
+   const updatedUser = await user.save()
 
     return res.status(200).json({
       status: 200,
-      message: `Successfully updated username to: ${newUsername}`
+      message: `Successfully updated username to: ${updatedUser.username}`,
     })
   } catch (error) {
     res.status(400).json({
