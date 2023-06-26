@@ -4,13 +4,17 @@ import CarListing from '../models/CarListing.js';
 async function createSalePost(req, res) {
   try {
     const postData = req.body;
+
+    console.log("------------------------------images--------------------------")
+    console.log(req.body);
+
     const images = req?.files?.map(file => 'uploads/compressed/' + file.filename);
-    console.log('Received request to create a new sale post:', postData);
-    console.log('Uploaded images:', images);
+    // console.log('Received request to create a new sale post:', postData);
+    // console.log('Uploaded images:', images);
     const carListing = new CarListing({ ...postData, images });
-    console.log('New car listing object:', carListing);
+    // console.log('New car listing object:', carListing);
     await carListing.save();
-    console.log('Car listing saved successfully:', carListing);
+    // console.log('Car listing saved successfully:', carListing);
     res.status(201).json(carListing);
   } catch (error) {
     console.error('Error creating sale post:', error);
@@ -45,6 +49,13 @@ async function updateSalePost(req, res) {
   try {
     const { id } = req.params;
     const updatedData = req.body;
+
+    // Handle image upload if necessary
+    if (req.files && req.files.length > 0) {
+      const images = req.files.map(file => 'uploads/compressed/' + file.filename);
+      updatedData.images = images;
+    }
+
     const carListing = await CarListing.findByIdAndUpdate(id, updatedData, { new: true });
     if (!carListing) {
       res.status(404).json({ error: 'Sale post not found' });
