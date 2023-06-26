@@ -49,13 +49,6 @@ async function updateSalePost(req, res) {
   try {
     const { id } = req.params;
     const updatedData = req.body;
-
-    // Handle image upload if necessary
-    if (req.files && req.files.length > 0) {
-      const images = req.files.map(file => 'uploads/compressed/' + file.filename);
-      updatedData.images = images;
-    }
-
     const carListing = await CarListing.findByIdAndUpdate(id, updatedData, { new: true });
     if (!carListing) {
       res.status(404).json({ error: 'Sale post not found' });
