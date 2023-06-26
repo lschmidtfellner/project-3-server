@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
-import User from '../models/User';
-import CarListing from '../models/CarListing';
-import connectToMongoDB from './connection';
+const mongoose = require('mongoose');
+const User = require('../models/User'); 
+const CarListing = require('../models/CarListing'); 
+const connectToMongoDB = require('./connection');
 
 // User data to be seeded
 const usersData = [
