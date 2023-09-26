@@ -75,7 +75,6 @@ app.use('/api/upload', uploadRoutes);
 // app.use('/auth', authRoutes);
 
 db.on("connected", () => {
-  console.clear();
   console.log(chalk.blue("Connectd to MongoDB!"));
   app.listen(PORT, () => {
     process.env.NODE_ENV === "production"

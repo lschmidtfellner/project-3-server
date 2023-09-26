@@ -1,4 +1,5 @@
 import CarListing from '../models/CarListing.js';
+import { deleteImageFromCloudinary } from '../config/cloudinaryConfig.js';
 
 async function createSalePost(req, res) {
     try {
@@ -52,14 +53,19 @@ async function updateSalePost(req, res) {
 
 async function deleteSalePost(req, res) {
   try {
+
     const { id } = req.params;
     const carListing = await CarListing.findByIdAndRemove(id);
+    const imageSplit = carListing.image.split('/')
+    let imageId = imageSplit[imageSplit.length-1].split('.')[0]
+    deleteImageFromCloudinary(imageId)
     if (!carListing) {
       res.status(404).json({ error: 'Sale post not found' });
     } else {
       res.json({ message: 'Sale post deleted successfully' });
     }
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: 'Failed to delete sale post' });
   }
 }
