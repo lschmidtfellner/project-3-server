@@ -58,13 +58,26 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 
 app.use(express.json());
+// app.use(
+//       cors({
+//         origin: ['http://localhost:3000', 'https://project-3-client.vercel.app/', 'https://project-3-client-git-development-lschmidtfellner.vercel.app/', 'https://project-3-client-jexll19se-lschmidtfellner.vercel.app/', 'https://luke-used-cars-backend-19ea42e37e12.herokuapp.com'],
+//         credentials: true,
+//         methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+//         exposedHeaders: ['Access-Control-Allow-Origin'],
+//       }))
+
+
 app.use(
-      cors({
-        origin: ['http://localhost:3000', 'https://project-3-client.vercel.app/', 'https://project-3-client-git-development-lschmidtfellner.vercel.app/', 'https://project-3-client-jexll19se-lschmidtfellner.vercel.app/', 'https://luke-used-cars-backend-19ea42e37e12.herokuapp.com'],
-        credentials: true,
-        methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-        exposedHeaders: ['Access-Control-Allow-Origin'],
-      }))
+  cors({
+    origin: (origin, callback) => {
+      callback(null, true)
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  })
+)
+
+
 app.use(logger("dev"));
 app.use('/uploads', express.static(path.join('uploads')));
 
