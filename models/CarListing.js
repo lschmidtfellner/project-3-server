@@ -27,9 +27,10 @@ const carListingSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  images: [{
+  image: {
     type: String,
-  }],
+    required: true
+  },
 });
 
 const CarListing = mongoose.model('CarListing', carListingSchema);
