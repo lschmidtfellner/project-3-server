@@ -152,4 +152,24 @@ async function deleteUsername(req, res) {
   }
 }
 
-export { isTokenValid, signup, signin, updateUsername, deleteUsername }
+const getUserEmailById = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    console.log(userId);
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Ensure that only the email is returned, you can modify the response as needed
+    res.json({ email: user.email });
+    console.log(res.json({ email: user.email }));
+  } catch (error) {
+    console.error('Error fetching user email by ID:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+export { isTokenValid, signup, signin, updateUsername, deleteUsername, getUserEmailById }
