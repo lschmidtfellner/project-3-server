@@ -12,6 +12,9 @@ const carInfoSchema = new mongoose.Schema({
     },
     Category: {
         type: String,
+    },
+    Price: {
+        type: Number,
     }
 }, {collection: 'Car-Info'});
 
