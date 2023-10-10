@@ -163,8 +163,7 @@ const getUserEmailById = async (req, res) => {
     }
 
     // Ensure that only the email is returned, you can modify the response as needed
-    res.json({ email: user.email });
-    console.log(res.json({ email: user.email }));
+    res.status(200).json({ email: user.email });
   } catch (error) {
     console.error('Error fetching user email by ID:', error);
     res.status(500).json({ error: 'Internal server error' });
